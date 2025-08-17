@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+<body class="dashboard">
+  <!-- 🔧 Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#" onclick="showTab('home')">Home</a></li>
+      <li><a href="#" onclick="showTab('ranking')">Weekly Ranking</a></li>
+      <li><a href="#" onclick="showTab('settings')">Settings</a></li>
+      <li><a href="#" onclick="showTab('account')">Account</a></li>
+      <li id="adminTab" style="display: none;"><a href="#" onclick="showTab('adminPanel')">Admin</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <!-- 🏠 Home Tab -->
+    <div class="content" id="home">
+      <h1 id="welcomeMessage">Welcome, guest!</h1>
+      <h2>🏠 Home</h2>
+      <p>Top 1 weekly performer:</p>
+      <ol id="topRanking"></ol>
+
+      <div id="scoreInputArea" style="margin-top: 2em;">
+        <h3>🎯 Submit Your Code</h3>
+        <input type="text" id="pointCode" placeholder="Enter a code like 2pSKY88" />
+        <button onclick="submitCode()">Submit Code</button>
+      </div>
+    </div>
+
+    <!-- 🛠 Admin Panel Tab -->
+    <div class="content" id="adminPanel" style="display: none;">
+      <h2>🛠 Admin Code Generator</h2>
+  
+      <button onclick="generateSingleCode()">Generate Code</button>
+      <div id="generatedCodeDisplay" style="margin-top: 1em; font-size: 1.2em;"></div>
+      <button onclick="copyCode()">📋 Copy Code</button>
+      <button onclick="downloadCodesAsTxt()">🧾 Download Codes (.txt)</button>
+    </div>
+
+    <!-- 📊 Ranking Tab -->
+    <div class="content" id="ranking" style="display: none;">
+      <h2>📊 Full Weekly Leaderboard</h2>
+      <ol id="leaderboard"></ol>
+    </div>
+
+    <!-- ⚙️ Settings Tab -->
+    <div class="content" id="settings" style="display: none;">
+      <h2>⚙️ Settings</h2>
+      <p>You can customize your preferences here.</p>
+
+      <!-- 🌙 Dark Mode -->
+      <div style="text-align: center; margin-top: 1em;">
+        <label style="font-weight: bold;">
+          <input type="checkbox" id="darkToggle" onchange="toggleDarkMode()" />
+          Enable Dark Mode
+        </label>
+      </div>
+      
+            <!-- 🔒 Change Password -->
+      <div style="margin-top: 2em;">
+        <h3>🔒 Change Password</h3>
+        <input type="password" id="currentPassword" placeholder="Current password" />
+        <input type="password" id="newPassword" placeholder="New password" />
+        <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+        <button onclick="changePassword()">Change Password</button>
+      </div>
+
+      <!-- 🚪 Logout -->
+      <div id="logoutSection" style="display: none; margin-top: 2em; text-align: center;">
+        <button onclick="logoutUser()" style="padding: 0.5em 2em;">🚪 Logout</button>
+      </div>
+    </div>
+
+    <!-- 👤 Account Tab -->
+    <div class="content" id="account" style="display: none;">
+      <h2>👤 My Account</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 2em;">
+        <div id="profilePicSection">
+          <input type="file" id="profilePicInput" accept="image/*" />
+          <img id="profilePicPreview" src="" alt="Your profile photo" />
+        </div>
+        <ul style="list-style: none; padding: 0;">
+          <li>Username: <span id="accUsername"></span></li>
+          <li>Email: <span id="accEmail"></span></li>
+          <li>Age: <span id="accAge"></span></li>
+          <li>Grade: <span id="accGrade"></span></li>
+          <li>Section: <span id="accSection"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔗 Scripts -->
+  <script src="main.js"></script>
+  <script src="codeGenerator.js"></script>
+  <script>
+  window.onload = function() {
+    verifyUserInSheet();
+  };
+  
+  window.onload = () => {
+  cleanLeaderboard();
+  // other onload functions like displayLeaderboard();
+  };
+  
+  window.onload = async () => {
+  await cleanRankingDataFromSheet();
+  renderLeaderboard(); // or whatever function shows the ranking
+  };
+</script>
+</body>
+</html>

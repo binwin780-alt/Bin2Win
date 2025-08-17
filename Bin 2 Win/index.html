@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Bin2Win</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+  <style>
+    .top-right-back {
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      padding: 6px 16px;
+      background-color: #ddd;
+      color: #333;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.2s ease;
+    }
+
+    .top-right-back:hover {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="padding: 2em; text-align: center;" id="welcomeScreen">
+    <h1>Welcome to Bin2Win</h1>
+    <p>Please register or log in to continue.</p>
+
+    <!-- 🔘 Buttons to show forms -->
+    <div style="margin-top: 2em;">
+      <button onclick="showForm('registerForm')">📝 Register</button>
+      <button onclick="showForm('loginForm')">🔐 Login</button>
+    </div>
+  </div>
+
+  <!-- 📝 Register Form -->
+  <div id="registerForm" class="form-popup" style="display: none; position: relative;">
+    <h2>Register</h2>
+    <form onsubmit="event.preventDefault(); submitRegister();">
+      <div class="field-row">
+        <label for="regUsername">Username:</label>
+        <input type="text" id="regUsername" placeholder="Username" required />
+      </div>
+      <div class="field-row">
+        <label for="regEmail">Email:</label>
+        <input type="email" id="regEmail" placeholder="Email" required />
+      </div>
+      <div class="field-row">
+        <label for="regPassword">Password:</label>
+        <input type="password" id="regPassword" placeholder="Password" minlength="6" required />
+      </div>  
+      <div class="field-row">
+        <label for="regGrade">Grade:</label>
+        <input type="text" id="regGrade" placeholder="Grade" required />
+      </div>
+      <div class="field-row">
+        <label for="regSection">Section:</label>
+        <input type="text" id="regSection" placeholder="Section" required />
+      </div>
+      <button type="submit">Register</button>
+    </form>
+    <button onclick="hideForms()" class="back-bottom">Back</button>
+  </div>
+
+  <!-- 🔐 Login Form -->
+  <div id="loginForm" class="form-popup" style="display: none; position: relative;">
+    <h2>Login</h2>
+    <form onsubmit="event.preventDefault(); submitLogin();">
+      <label for="loginEmail">Email:</label>
+      <input type="text" id="loginEmail" placeholder="Enter your Email" required />
+
+      <label for="loginPassword">Password:</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <button onclick="hideForms()" class="back-bottom">Back</button>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
